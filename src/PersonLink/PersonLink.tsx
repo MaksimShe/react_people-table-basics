@@ -1,31 +1,27 @@
 import { Link } from 'react-router-dom';
 import { Person } from '../types';
-import React from 'react';
 
-type Props = {
-  person: Person;
-  whoIs: 'mother' | 'father';
-};
-
-export const PersonLink: React.FC<Props> = ({ person, whoIs }) => {
-  let displayName = '';
-
-  if (whoIs === 'mother') {
-    displayName = person.motherName || '-';
-  } else {
-    displayName = person.fatherName || '-';
+export const PersonLink = ({
+  name,
+  person,
+}: {
+  name: string | null;
+  person?: Person;
+}) => {
+  if (!name) {
+    return <span>-</span>;
   }
 
-  return person[whoIs] ? (
-    <Link
-      to={`/people/${person[whoIs]?.slug}`}
-      className={
-        whoIs === 'mother' && displayName !== '-' ? 'has-text-danger' : ''
-      }
-    >
-      {displayName}
-    </Link>
-  ) : (
-    displayName
-  );
+  const isFemale = (name && name === person?.motherName) || person?.sex === 'f';
+  const className = isFemale ? 'has-text-danger' : '';
+
+  if (person && person.slug) {
+    return (
+      <Link to={`/people/${person.slug}`} className={className}>
+        {name}
+      </Link>
+    );
+  }
+
+  return <span className={className}>{name}</span>;
 };

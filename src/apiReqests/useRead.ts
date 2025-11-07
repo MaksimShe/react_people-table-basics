@@ -7,7 +7,7 @@ const apiUrl =
   'https://mate-academy.github.io/react_people-table/api/people.json';
 
 export const useRead = () => {
-  const [people, setPeople] = useState<Person[]>();
+  const [people, setPeople] = useState<Person[]>([]);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,7 +41,7 @@ export const useRead = () => {
       })
       .catch(() => setHasError(true))
       .finally(() => {
-        setTimeout(() => setIsLoading(false), 400); //if i don`t do this, i have 3 errors)
+        setIsLoading(false);
       });
   }, []);
 

@@ -1,14 +1,16 @@
 import { Person } from '../../types';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import React from 'react';
 import { PersonLink } from '../../PersonLink/PersonLink';
+import { useParams } from 'react-router-dom';
 
 type Props = {
   people: Person[];
 };
 
 export const PeopleTable: React.FC<Props> = ({ people }) => {
+  const { personSlug } = useParams<{ personSlug: string }>();
+
   return (
     <table
       data-cy="peopleTable"
@@ -31,29 +33,20 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
               data-cy="person"
               key={person.slug}
               className={classNames({
-                'has-background-warning': location.pathname.endsWith(
-                  person.slug,
-                ),
+                'has-background-warning': person.slug === personSlug,
               })}
             >
               <td>
-                <Link
-                  to={person.slug}
-                  className={classNames({
-                    'has-text-danger': person.sex === 'f',
-                  })}
-                >
-                  {person.name}
-                </Link>
+                <PersonLink name={person.name} person={person} />
               </td>
               <td>{person.sex}</td>
               <td>{person.born}</td>
               <td>{person.died}</td>
               <td>
-                <PersonLink person={person} whoIs={'mother'} />
+                <PersonLink person={person.mother} name={person.motherName} />
               </td>
               <td>
-                <PersonLink person={person} whoIs={'father'} />
+                <PersonLink person={person.father} name={person.fatherName} />
               </td>
             </tr>
           ))}
