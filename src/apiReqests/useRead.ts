@@ -31,6 +31,7 @@ export const useRead = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    setHasError(false);
     axios
       .get(apiUrl)
       .then(resp => {
@@ -39,8 +40,10 @@ export const useRead = () => {
         setPeople(peopleWithLinks(allPersons));
       })
       .catch(() => setHasError(true))
-      .finally(() => setIsLoading(false));
-  }, [setPeople]);
+      .finally(() => {
+        setTimeout(() => setIsLoading(false), 400); //if i don`t do this, i have 3 errors)
+      });
+  }, []);
 
   return { people, hasError, isLoading };
 };

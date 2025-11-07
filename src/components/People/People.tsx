@@ -15,12 +15,12 @@ export const People = () => {
         <div className="block">
           <div className="box table-container">
             {isLoading && <Loader />}
-            {hasError && (
+            {hasError && !isLoading && (
               <p data-cy="peopleLoadingError" className="has-text-danger">
                 Something went wrong
               </p>
             )}
-            {people?.length === 0 && (
+            {people?.length === 0 && !isLoading && (
               <p data-cy="noPeopleMessage">There are no people on the server</p>
             )}
 
@@ -52,7 +52,14 @@ export const People = () => {
                         })}
                       >
                         <td>
-                          <Link to={person.slug}>{person.name}</Link>
+                          <Link
+                            to={person.slug}
+                            className={classNames({
+                              'has-text-danger': person.sex === 'f',
+                            })}
+                          >
+                            {person.name}
+                          </Link>
                         </td>
                         <td>{person.sex}</td>
                         <td>{person.born}</td>
