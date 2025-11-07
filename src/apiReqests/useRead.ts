@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Person } from '../types';
