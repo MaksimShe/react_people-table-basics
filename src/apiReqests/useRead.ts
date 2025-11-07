@@ -12,12 +12,10 @@ export const useRead = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const peopleWithLinks = (peopleReady: Person[]): Person[] => {
-    // створюємо швидкий пошук по імені
     const mapByName = new Map<string, Person>();
 
     peopleReady.forEach(p => mapByName.set(p.name, p));
 
-    // додаємо посилання на батьків
     return peopleReady.map(p => ({
       ...p,
       father: p.fatherName
